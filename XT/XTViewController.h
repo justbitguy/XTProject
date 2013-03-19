@@ -11,14 +11,23 @@
 @interface XTViewController : UIViewController
 {
     UIView* m_view;
-    NSMutableArray* m_numButtons;
+    NSMutableArray* m_numberButtons;
     
     UIButton* m_addButton;
     UIButton* m_minusButton;
     UIButton* m_multiButton;
     UIButton* m_divButton;
     
+    UIButton* m_clearButton;
+    UIButton* m_resultButton;
+    
+    UILabel* m_label; 
 }
 
+- (void) createUI; 
+- (void) createNumberButtons;
+- (void) createCalculateButtons; 
+- (void) createOpButtons;
+- (void) createDisplayArea;
 
 @end
