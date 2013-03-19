@@ -83,16 +83,17 @@
 - (void)createDisplayArea
 {
     float x = 300;
-    float y = 200;
-    float width = 100;
-    float height = 100;
-    m_label = [UILabel alloc] initWithFrame:CGRectMake(x, y, width, height);
-    
-    [self.view addSubview m_label];
+    float y = 50;
+    float width = 200;
+    float height = 200;
+    m_label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    m_label.backgroundColor = [UIColor redColor];
+    m_label.textColor = [UIColor blackColor]; 
+    [self.view addSubview:m_label];
 }
 
 - (void)clicked:(UIButton*)button
 {
-
+    m_label.text = [button titleForState:UIControlStateNormal];
 }
 @end
