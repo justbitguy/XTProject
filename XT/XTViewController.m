@@ -12,6 +12,9 @@
 #define ButtonXOffset 50
 #define ButtonYOffset 50
 
+#define DOT_TAG 10
+#define BACK_TAG 21
+
 @implementation XTViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -114,8 +117,16 @@
     [m_dotButton setTitle:@"." forState:UIControlStateNormal];
     [m_dotButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [m_dotButton setBackgroundColor:[UIColor greenColor]];
+    m_dotButton.tag = 10;
+    
+    m_backButton = [[UIButton alloc] initWithFrame:CGRectMake(160, 215, ButtonWidth, ButtonWidth)];
+    [m_backButton setTitle:@"<-" forState:UIControlStateNormal];
+    [m_backButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [m_backButton setBackgroundColor:[UIColor greenColor]];
+    m_backButton.tag = BACK_TAG;
     
     [self.view addSubview:m_dotButton];
+    [self.view addSubview:m_backButton];
 }
 
 - (void)createDisplayArea

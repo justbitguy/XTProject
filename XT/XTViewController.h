@@ -19,6 +19,7 @@
     UIButton* m_divButton;
     
     UIButton* m_clearButton;
+    UIButton* m_backButton;
     UIButton* m_resultButton;
     UIButton* m_dotButton;
     
