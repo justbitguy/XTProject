@@ -20,13 +20,14 @@
     
     UIButton* m_clearButton;
     UIButton* m_resultButton;
+    UIButton* m_dotButton;
     
     UILabel* m_label; 
 }
 
 - (void) createUI; 
 - (void) createNumberButtons;
-- (void) createCalculateButtons; 
+- (void) createOtherButtons;
 - (void) createOpButtons;
 - (void) createDisplayArea;
 
