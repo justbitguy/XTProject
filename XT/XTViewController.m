@@ -8,9 +8,10 @@
 
 #import "XTViewController.h"
 
-#define ButtonWidth 50
-#define ButtonXOffset 50
-#define ButtonYOffset 50
+#define ButtonWidth 100
+#define ButtonXOffset 200
+#define ButtonYOffset 200
+#define WidthAndInterval 110
 
 #define DOT_TAG 10
 #define BACK_TAG 21
@@ -63,8 +64,8 @@
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         button.backgroundColor = [UIColor greenColor];
         
-        float x = i%3*(ButtonWidth+5) + ButtonXOffset;
-        float y = i/3*(ButtonWidth+5) + ButtonYOffset;
+        float x = i%3*(WidthAndInterval) + ButtonXOffset;
+        float y = i/3*(WidthAndInterval) + ButtonYOffset;
         button.frame = CGRectMake(x, y, ButtonWidth, ButtonWidth);
         [button addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -77,33 +78,42 @@
 
 - (void)createOpButtons
 {
-    m_addButton = [[UIButton alloc] initWithFrame:CGRectMake(300, 50, ButtonWidth, ButtonWidth)];
+    float x = ButtonXOffset + 3*(WidthAndInterval);
+    float y = ButtonYOffset;
+    
+    m_addButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y, ButtonWidth, ButtonWidth)];
     [m_addButton setTitle:@"+" forState:UIControlStateNormal];
     [m_addButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [m_addButton setBackgroundColor:[UIColor yellowColor]];
     [m_addButton addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_addButton setTag:11];
     
-    m_minusButton = [[UIButton alloc] initWithFrame:CGRectMake(300, 105, ButtonWidth, ButtonWidth)];
+    m_minusButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_minusButton setTitle:@"-" forState:UIControlStateNormal];
     [m_minusButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [m_minusButton setBackgroundColor:[UIColor yellowColor]];
     [m_minusButton addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_minusButton setTag:12];
     
-    m_multiButton = [[UIButton alloc] initWithFrame:CGRectMake(300, 160, ButtonWidth, ButtonWidth)];
+    m_multiButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+2*WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_multiButton setTitle:@"x" forState:UIControlStateNormal];
     [m_multiButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [m_multiButton setBackgroundColor:[UIColor yellowColor]];
     [m_multiButton addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_multiButton setTag:13];
     
-    m_divButton = [[UIButton alloc] initWithFrame:CGRectMake(300, 215, ButtonWidth, ButtonWidth)];
+    m_divButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+3*WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_divButton setTitle:@"/" forState:UIControlStateNormal];
     [m_divButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [m_divButton setBackgroundColor:[UIColor yellowColor]];
     [m_divButton addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_divButton setTag:14];
+    
+    
+    [m_addButton addTarget:self action:@selector(opButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [m_minusButton addTarget:self action:@selector(opButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [m_multiButton addTarget:self action:@selector(opButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [m_divButton addTarget:self action:@selector(opButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:m_addButton];
     [self.view addSubview:m_minusButton];
@@ -113,32 +123,70 @@
 
 - (void)createOtherButtons
 {
-    m_dotButton = [[UIButton alloc] initWithFrame:CGRectMake(105, 215, ButtonWidth, ButtonWidth)];
+    
+    m_dotButton = [[UIButton alloc] initWithFrame:CGRectMake(ButtonXOffset+WidthAndInterval, ButtonYOffset+3*WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_dotButton setTitle:@"." forState:UIControlStateNormal];
     [m_dotButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [m_dotButton setBackgroundColor:[UIColor greenColor]];
     m_dotButton.tag = 10;
     
-    m_backButton = [[UIButton alloc] initWithFrame:CGRectMake(160, 215, ButtonWidth, ButtonWidth)];
-    [m_backButton setTitle:@"<-" forState:UIControlStateNormal];
+    m_backButton = [[UIButton alloc] initWithFrame:CGRectMake(ButtonXOffset+2*WidthAndInterval, ButtonYOffset+3*WidthAndInterval, ButtonWidth, ButtonWidth)];
+    [m_backButton setTitle:@"<" forState:UIControlStateNormal];
     [m_backButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [m_backButton setBackgroundColor:[UIColor greenColor]];
     m_backButton.tag = BACK_TAG;
     
+    m_clearButton = [[UIButton alloc] initWithFrame:CGRectMake(ButtonXOffset, ButtonYOffset+4*WidthAndInterval, ButtonWidth+WidthAndInterval, ButtonWidth)];
+    [m_clearButton setTitle:@"clear" forState:UIControlStateNormal];
+    [m_clearButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [m_clearButton setBackgroundColor:[UIColor greenColor]];
+
+
+    m_resultButton = [[UIButton alloc] initWithFrame:CGRectMake(ButtonXOffset+2*WidthAndInterval, ButtonYOffset+4*WidthAndInterval, ButtonWidth+WidthAndInterval, ButtonWidth)];
+    [m_resultButton setTitle:@"=" forState:UIControlStateNormal];
+    [m_resultButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [m_resultButton setBackgroundColor:[UIColor greenColor]];
+
+    
+    [m_dotButton addTarget:self action:@selector(dotButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [m_backButton addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [m_clearButton addTarget:self action:@selector(clearButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [m_resultButton addTarget:self action:@selector(calculate) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:m_dotButton];
     [self.view addSubview:m_backButton];
+    [self.view addSubview:m_clearButton];
+    [self.view addSubview:m_resultButton];
 }
 
 - (void)createDisplayArea
 {
-    float x = 400;
-    float y = 50;
-    float width = 300;
-    float height = 200;
+    float height = ButtonWidth;
+    float width = 3*WidthAndInterval+ButtonWidth;
+    float x  = ButtonXOffset;
+    float y = ButtonXOffset - WidthAndInterval;
+    
     m_label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
     m_label.backgroundColor = [UIColor redColor];
     m_label.textColor = [UIColor blackColor]; 
     [self.view addSubview:m_label];
+}
+
+- (void)dotButtonClicked:(UIButton*)button
+{
+
+}
+
+- (void)backButtonClicked:(UIButton*)button
+{
+    
+}
+
+
+- (void)opButtonClicked:(UIButton*)button
+{
+    
+    
 }
 
 - (void)clicked:(UIButton*)button
