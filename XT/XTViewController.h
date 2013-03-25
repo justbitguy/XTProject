@@ -13,7 +13,8 @@ typedef enum
     TextStateZeroFirst,     // "0", "+0"
     TextStateNumberLast,    // "1", "+23"
     TextStateOperatorLast,  // "1+", "23/"
-    TextStateDot,           // "0.", "23."
+    TextStateDotLast,       // "0.", "23."
+    TextStateDotMiddle,     // "0.22"
     TextStateWrong
 }TextState;
 
@@ -47,6 +48,7 @@ typedef enum
 - (BOOL) stringIsOperator:(NSString *)text;
 - (BOOL) stringIsPositive:(NSString *)text;
 - (BOOL) stringisZero:(NSString*)text;
+- (BOOL) inMiddleDotState;
 
 - (TextState)currentState;
 

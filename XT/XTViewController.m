@@ -86,35 +86,31 @@
     [m_addButton setTitle:@"+" forState:UIControlStateNormal];
     [m_addButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [m_addButton setBackgroundColor:[UIColor yellowColor]];
-    [m_addButton addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_addButton setTag:11];
     
     m_minusButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_minusButton setTitle:@"-" forState:UIControlStateNormal];
     [m_minusButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [m_minusButton setBackgroundColor:[UIColor yellowColor]];
-    [m_minusButton addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_minusButton setTag:12];
     
     m_multiButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+2*WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_multiButton setTitle:@"x" forState:UIControlStateNormal];
     [m_multiButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [m_multiButton setBackgroundColor:[UIColor yellowColor]];
-    [m_multiButton addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_multiButton setTag:13];
     
     m_divButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+3*WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_divButton setTitle:@"/" forState:UIControlStateNormal];
     [m_divButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [m_divButton setBackgroundColor:[UIColor yellowColor]];
-    [m_divButton addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_divButton setTag:14];
     
     
-    [m_addButton addTarget:self action:@selector(opButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [m_minusButton addTarget:self action:@selector(opButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [m_multiButton addTarget:self action:@selector(opButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [m_divButton addTarget:self action:@selector(opButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    [m_addButton addTarget:self action:@selector(opButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [m_minusButton addTarget:self action:@selector(opButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [m_multiButton addTarget:self action:@selector(opButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [m_divButton addTarget:self action:@selector(opButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:m_addButton];
     [self.view addSubview:m_minusButton];
@@ -149,10 +145,10 @@
     [m_resultButton setBackgroundColor:[UIColor greenColor]];
 
     
-    [m_dotButton addTarget:self action:@selector(dotButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [m_backButton addTarget:self action:@selector(backButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [m_clearButton addTarget:self action:@selector(clearButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    [m_resultButton addTarget:self action:@selector(calculate) forControlEvents:UIControlEventTouchUpInside];
+    [m_dotButton addTarget:self action:@selector(dotButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [m_backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [m_clearButton addTarget:self action:@selector(clearButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [m_resultButton addTarget:self action:@selector(resultButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:m_dotButton];
     [self.view addSubview:m_backButton];
@@ -169,7 +165,8 @@
     
     m_label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
     m_label.backgroundColor = [UIColor redColor];
-    m_label.textColor = [UIColor blackColor]; 
+    m_label.textColor = [UIColor blackColor];
+    m_label.textAlignment = NSTextAlignmentRight;
     [self.view addSubview:m_label];
 }
 
@@ -225,6 +222,27 @@
     return NO;
 }
 
+- (BOOL) inMiddleDotState
+{
+    if (m_label.text.length <= 0)
+        return  NO;
+    
+    const char * c = m_label.text.UTF8String;
+//    const char * p = c + m_label.text.length - 1;
+    
+    NSInteger i = m_label.text.length - 1;
+    while( i > 0)
+    {
+       if (c[i] >= '0' && c[i] <='9')
+           --i;
+        else if (c[i] == '.' && i != m_label.text.length -1)
+            return YES;
+        else
+            return NO;
+    };
+    return NO;
+}
+
 - (void)updateTextState
 {
     NSString* text = m_label.text;
@@ -254,11 +272,15 @@
         }
         else if ([last isEqualToString:@"."])
         {
-            self.state = TextStateDot;
+            self.state = TextStateDotLast;
         }
         else if ([last isEqualToString:@"0"] && [self stringIsOperator:secondLast])
         {
             self.state = TextStateZeroFirst;
+        }
+        else if ([self inMiddleDotState])
+        {
+            self.state = TextStateDotMiddle;
         }
         else
         {

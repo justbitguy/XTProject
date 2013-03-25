@@ -12,19 +12,33 @@
 
 - (void)dotButtonClicked:(UIButton*)button
 {
-    
+    TextState state = [self currentState];
+    if ((state == TextStateNumberLast || state == TextStateZeroFirst)
+        && state != TextStateDotMiddle
+        && state != TextStateDotLast)
+    {
+        m_label.text = [m_label.text stringByAppendingString:button.titleLabel.text];
+    }
 }
 
 - (void)backButtonClicked:(UIButton*)button
 {
-    
+    m_label.text = [m_label.text substringWithRange:NSMakeRange(0, m_label.text.length-1)];
 }
 
 
 - (void)opButtonClicked:(UIButton*)button
 {
-    
-    
+    TextState state = [self currentState];
+    if (state == TextStateZeroFirst || state == TextStateNumberLast || state == TextStateDotMiddle)
+    {
+        m_label.text = [m_label.text stringByAppendingString:button.titleLabel.text];
+    }
+}
+
+- (void)clearButtonClicked:(UIButton*)button
+{
+   m_label.text = @"";
 }
 
 - (void)numberButtonClicked:(UIButton*)button
@@ -40,7 +54,7 @@
      }
      else if (currentState == TextStateZeroFirst)
     {
-        NSString* text = [m_label.text substringWithRange:NSMakeRange(1, m_label.text.length -1)];
+        NSString* text = [m_label.text substringWithRange:NSMakeRange(0, m_label.text.length -1)];
         text = [text stringByAppendingString:button.titleLabel.text];
         m_label.text = text;
     }
@@ -50,5 +64,10 @@
     }
 
     
+}
+
+- (void)resultButtonClicked:(UIButton*)button
+{
+   
 }
 @end
