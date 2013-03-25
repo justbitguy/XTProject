@@ -17,6 +17,7 @@
 #define BACK_TAG 21
 
 @implementation XTViewController
+@synthesize state = m_state;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,7 +68,7 @@
         float x = i%3*(WidthAndInterval) + ButtonXOffset;
         float y = i/3*(WidthAndInterval) + ButtonYOffset;
         button.frame = CGRectMake(x, y, ButtonWidth, ButtonWidth);
-        [button addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(numberButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         m_numberButtons[i] = [button retain];
         [m_numberButtons[i] setTag:i];
@@ -172,32 +173,105 @@
     [self.view addSubview:m_label];
 }
 
-- (void)dotButtonClicked:(UIButton*)button
+- (BOOL) stringIsOperator:(NSString*)text
 {
-
-}
-
-- (void)backButtonClicked:(UIButton*)button
-{
-    
-}
-
-
-- (void)opButtonClicked:(UIButton*)button
-{
-    
-    
-}
-
-- (void)clicked:(UIButton*)button
-{
-    if (m_label.text == nil && button.tag < 10)
+    if ([text isEqualToString:@"+"]
+        || [text isEqualToString:@"-"]
+        || [text isEqualToString:@"x"]
+        || [text isEqualToString:@"/"])
     {
-        m_label.text = button.titleLabel.text;
+        return YES;
+    }
+    else
+        return NO;
+}
+
+- (BOOL) stringIsNumber:(NSString *)text
+{
+    if (text.length != 1)
+        return NO;
+    
+    const char * c = text.UTF8String;
+    if (*c >= '0' && *c <= '9')
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL) stringIsPositive:(NSString *)text
+{
+   if (text.length != 1)
+       return NO;
+    const char* c = text.UTF8String;
+    if (*c > '0' && *c <= '9')
+    {
+        return YES;
+    }
+
+    return NO;
+}
+
+- (BOOL) stringisZero:(NSString *)text
+{
+   if (text.length !=1)
+       return NO;
+    
+    const char* c = text.UTF8String;
+    if (*c == '0')
+        return YES;
+    
+    return NO;
+}
+
+- (void)updateTextState
+{
+    NSString* text = m_label.text;
+    if (text.length == 0)
+    {
+        self.state = TextStateEmpty;
+    }
+    else if (text.length == 1)
+    {
+        if ([text isEqualToString:@"0"])
+        {
+            self.state = TextStateZeroFirst;
+        }
+        else
+        {
+            self.state = TextStateNumberLast;
+        }
     }
     else
     {
-        m_label.text = [m_label.text stringByAppendingString:button.titleLabel.text];
+        NSString* last = [text substringWithRange:NSMakeRange(text.length-1, 1)];
+        NSString* secondLast = [text substringWithRange:NSMakeRange(text.length-2, 1)];
+        
+        if ([self stringIsOperator:last])
+        {
+            self.state = TextStateOperatorLast;
+        }
+        else if ([last isEqualToString:@"."])
+        {
+            self.state = TextStateDot;
+        }
+        else if ([last isEqualToString:@"0"] && [self stringIsOperator:secondLast])
+        {
+            self.state = TextStateZeroFirst;
+        }
+        else
+        {
+            self.state = TextStateNumberLast;
+        }
+    
     }
+    
+}
+
+- (TextState) currentState
+{
+    [self updateTextState];
+    return self.state;
 }
 @end

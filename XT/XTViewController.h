@@ -7,6 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef enum
+{
+    TextStateEmpty,
+    TextStateZeroFirst,     // "0", "+0"
+    TextStateNumberLast,    // "1", "+23"
+    TextStateOperatorLast,  // "1+", "23/"
+    TextStateDot,           // "0.", "23."
+    TextStateWrong
+}TextState;
 
 @interface XTViewController : UIViewController
 {
@@ -23,13 +32,22 @@
     UIButton* m_resultButton;
     UIButton* m_dotButton;
     
-    UILabel* m_label; 
+    UILabel* m_label;
+    TextState m_state;
 }
 
+@property (nonatomic, assign) TextState state;
 - (void) createUI; 
 - (void) createNumberButtons;
 - (void) createOtherButtons;
 - (void) createOpButtons;
 - (void) createDisplayArea;
+
+- (BOOL) stringIsNumber:(NSString*)text;
+- (BOOL) stringIsOperator:(NSString *)text;
+- (BOOL) stringIsPositive:(NSString *)text;
+- (BOOL) stringisZero:(NSString*)text;
+
+- (TextState)currentState;
 
 @end

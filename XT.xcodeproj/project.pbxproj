@@ -22,6 +22,7 @@
 		277E8CCA16F46BFD00AC493B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 277E8CC816F46BFD00AC493B /* InfoPlist.strings */; };
 		277E8CCD16F46BFD00AC493B /* XTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 277E8CCC16F46BFD00AC493B /* XTTests.m */; };
 		277E8CE516F46D8600AC493B /* XTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 277E8CE416F46D8600AC493B /* XTViewController.m */; };
+		2793A8FF17008D510067C969 /* XTViewController+Callback.m in Sources */ = {isa = PBXBuildFile; fileRef = 2793A8FE17008D510067C969 /* XTViewController+Callback.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		277E8CCC16F46BFD00AC493B /* XTTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XTTests.m; sourceTree = "<group>"; };
 		277E8CE316F46D8600AC493B /* XTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XTViewController.h; sourceTree = "<group>"; };
 		277E8CE416F46D8600AC493B /* XTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XTViewController.m; sourceTree = "<group>"; };
+		2793A8FD17008D510067C969 /* XTViewController+Callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XTViewController+Callback.h"; sourceTree = "<group>"; };
+		2793A8FE17008D510067C969 /* XTViewController+Callback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XTViewController+Callback.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +118,8 @@
 		277E8CA716F46BFD00AC493B /* XT */ = {
 			isa = PBXGroup;
 			children = (
+				2793A8FD17008D510067C969 /* XTViewController+Callback.h */,
+				2793A8FE17008D510067C969 /* XTViewController+Callback.m */,
 				277E8CE416F46D8600AC493B /* XTViewController.m */,
 				277E8CE316F46D8600AC493B /* XTViewController.h */,
 				277E8CB016F46BFD00AC493B /* AppDelegate.h */,
@@ -269,6 +274,7 @@
 				277E8CAE16F46BFD00AC493B /* main.m in Sources */,
 				277E8CB216F46BFD00AC493B /* AppDelegate.m in Sources */,
 				277E8CE516F46D8600AC493B /* XTViewController.m in Sources */,
+				2793A8FF17008D510067C969 /* XTViewController+Callback.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
