@@ -23,6 +23,7 @@
 		277E8CCD16F46BFD00AC493B /* XTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 277E8CCC16F46BFD00AC493B /* XTTests.m */; };
 		277E8CE516F46D8600AC493B /* XTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 277E8CE416F46D8600AC493B /* XTViewController.m */; };
 		2793A8FF17008D510067C969 /* XTViewController+Callback.m in Sources */ = {isa = PBXBuildFile; fileRef = 2793A8FE17008D510067C969 /* XTViewController+Callback.m */; };
+		27950C6B1701ED440088F179 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 27950C6A1701ED440088F179 /* Stack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,8 @@
 		277E8CE416F46D8600AC493B /* XTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XTViewController.m; sourceTree = "<group>"; };
 		2793A8FD17008D510067C969 /* XTViewController+Callback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XTViewController+Callback.h"; sourceTree = "<group>"; };
 		2793A8FE17008D510067C969 /* XTViewController+Callback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XTViewController+Callback.m"; sourceTree = "<group>"; };
+		27950C691701ED440088F179 /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stack.h; sourceTree = "<group>"; };
+		27950C6A1701ED440088F179 /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,8 @@
 				277E8CB016F46BFD00AC493B /* AppDelegate.h */,
 				277E8CB116F46BFD00AC493B /* AppDelegate.m */,
 				277E8CA816F46BFD00AC493B /* Supporting Files */,
+				27950C691701ED440088F179 /* Stack.h */,
+				27950C6A1701ED440088F179 /* Stack.m */,
 			);
 			path = XT;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 				277E8CB216F46BFD00AC493B /* AppDelegate.m in Sources */,
 				277E8CE516F46D8600AC493B /* XTViewController.m in Sources */,
 				2793A8FF17008D510067C969 /* XTViewController+Callback.m in Sources */,
+				27950C6B1701ED440088F179 /* Stack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
