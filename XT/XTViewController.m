@@ -61,7 +61,7 @@
     for (int i = 0; i < 10; ++i)
     {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setTitle:[NSString stringWithFormat:@"%d", i ] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:@"%d", (i+1)%10 ] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         button.backgroundColor = [UIColor greenColor];
         
@@ -71,7 +71,7 @@
         [button addTarget:self action:@selector(numberButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         m_numberButtons[i] = [button retain];
-        [m_numberButtons[i] setTag:i];
+        [m_numberButtons[i] setTag:(i+1)%10];
         
         [self.view addSubview: button];
     }

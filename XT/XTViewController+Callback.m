@@ -145,7 +145,7 @@
     {
         if (c[i] == '+' || c[i] == '-' || c[i] =='x' || c[i] == '/' || c[i] == '=')
         {
-            // convert string to a number and push to stack.
+            // convert string to a number and push into stack.
             NSRange range = NSMakeRange(loc, i - loc);
             NSString* ns = [exprText substringWithRange:range];
             float value = ns.floatValue;
@@ -177,6 +177,10 @@
                     
                     NSNumber* tempTop = nil;
                     
+                    // if current operator is a lower operator, we compute all the result before it,
+                    // such as "5x2+3-", in this loop we will compute "5x2+3", and then push the result
+                    // into the number stack, because '=' operator is lowest, so we will get the last result
+                    // and push it into stack.
                     do
                     {
                         NSNumber* operatorObject = [opStack pop];
@@ -193,7 +197,8 @@
                         
                     }while(tempTop && [self priority:tempTop.charValue with:curCharOpeator] >= 0);
                     
-                    
+                    // after get the result in the loop, we will push the operator if need.
+                    // unless current operator is '='.
                     if (curCharOpeator == '=')
                     {
                         NSNumber* resObject = [numStack pop];
@@ -208,8 +213,8 @@
                 }
             }
             
+            // update the location for new substring.
             loc = i+1;
-            
         }
 
     }
