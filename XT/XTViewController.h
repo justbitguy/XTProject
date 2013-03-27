@@ -15,6 +15,7 @@ typedef enum
     TextStateOperatorLast,  // "1+", "23/"
     TextStateDotLast,       // "0.", "23."
     TextStateDotMiddle,     // "0.22"
+    TextStateResult,
     TextStateWrong
 }TextState;
 

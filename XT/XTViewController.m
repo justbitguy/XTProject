@@ -250,6 +250,10 @@
     {
         self.state = TextStateEmpty;
     }
+    else if ([text rangeOfString:@"="].location != NSNotFound )
+    {
+        self.state = TextStateResult;
+    }
     else if (text.length == 1)
     {
         if ([text isEqualToString:@"0"])

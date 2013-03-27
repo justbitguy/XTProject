@@ -24,27 +24,41 @@
 
 - (void)backButtonClicked:(UIButton*)button
 {
-    m_label.text = [m_label.text substringWithRange:NSMakeRange(0, m_label.text.length-1)];
+    if (m_label.text.length > 0)
+       m_label.text = [m_label.text substringWithRange:NSMakeRange(0, m_label.text.length-1)];
 }
 
 
 - (void)opButtonClicked:(UIButton*)button
 {
     TextState state = [self currentState];
+    if (state == TextStateResult)
+        return;
+    
     if (state == TextStateZeroFirst || state == TextStateNumberLast || state == TextStateDotMiddle)
     {
         m_label.text = [m_label.text stringByAppendingString:button.titleLabel.text];
     }
 }
 
+- (void) clear
+{
+    m_label.text = @"";
+}
+
 - (void)clearButtonClicked:(UIButton*)button
 {
-   m_label.text = @"";
+    [self clear];
 }
 
 - (void)numberButtonClicked:(UIButton*)button
 {
      TextState currentState = [self currentState];
+    
+     if (currentState == TextStateResult)
+     {
+         return;
+     }
     
      if (currentState == TextStateEmpty)
      {
@@ -161,7 +175,7 @@
                     // pop last two numbers.
                     // then: first op last.
                     
-                    NSNumber* topN = nil;
+                    NSNumber* tempTop = nil;
                     
                     do
                     {
@@ -175,10 +189,9 @@
                         float result = [self compute:operator left:_1st right:_2nd];
                         [numStack push:[NSNumber numberWithFloat:result]];
                         
-                        NSLog(@"%f", result);
+                        tempTop = opStack.top;
                         
-                        topN = opStack.top;
-                    }while(topN && [self priority:topN.charValue with:curCharOpeator] >= 0);
+                    }while(tempTop && [self priority:tempTop.charValue with:curCharOpeator] >= 0);
                     
                     
                     if (curCharOpeator == '=')
@@ -200,15 +213,6 @@
         }
 
     }
-    
-    // the last number.
-//    if (i == length)
-//    {
-//        NSRange range = NSMakeRange(loc, i-loc);
-//        NSString* ns = [exprText substringWithRange:range];
-//        float value = ns.floatValue;
-//        NSLog(@"value = %f\n", value);
-//    }
     
 }
 
