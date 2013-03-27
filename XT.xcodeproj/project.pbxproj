@@ -121,15 +121,15 @@
 		277E8CA716F46BFD00AC493B /* XT */ = {
 			isa = PBXGroup;
 			children = (
-				2793A8FD17008D510067C969 /* XTViewController+Callback.h */,
+				277E8CB116F46BFD00AC493B /* AppDelegate.m */,
+				277E8CB016F46BFD00AC493B /* AppDelegate.h */,
 				2793A8FE17008D510067C969 /* XTViewController+Callback.m */,
+				2793A8FD17008D510067C969 /* XTViewController+Callback.h */,
 				277E8CE416F46D8600AC493B /* XTViewController.m */,
 				277E8CE316F46D8600AC493B /* XTViewController.h */,
-				277E8CB016F46BFD00AC493B /* AppDelegate.h */,
-				277E8CB116F46BFD00AC493B /* AppDelegate.m */,
-				277E8CA816F46BFD00AC493B /* Supporting Files */,
 				27950C691701ED440088F179 /* Stack.h */,
 				27950C6A1701ED440088F179 /* Stack.m */,
+				277E8CA816F46BFD00AC493B /* Supporting Files */,
 			);
 			path = XT;
 			sourceTree = "<group>";

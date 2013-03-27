@@ -80,32 +80,46 @@
     }
 }
 
-- (int)priority:(char)first with:(char)last
+- (int)priority:(char)left with:(char)right
 {
-    int firstPri, lastPri;
-    if (first == '+'|| first == '-')
+    int leftWeight= 0, rightWeight = 0;
+   
+    //left value.
+    if (left == '=')
     {
-        firstPri = 0;
+        leftWeight = 0;
     }
-    else {
-        firstPri = 1;
+    else if (left == '+' || left == '-')
+    {
+        leftWeight = 1;
+    }
+    else
+    {
+        leftWeight = 2;
+    }
+  
+    // right value.
+    if (right == '=')
+    {
+        rightWeight = 0;
+    }
+    else if (right == '+' || right == '-')
+    {
+        rightWeight = 1;
+    }
+    else
+    {
+        rightWeight = 2;
     }
     
-    if (last == '+' || last == '-')
-    {
-        lastPri = 0;
-    }
-    else {
-        lastPri = 1;
-    }
-    
-    return firstPri - lastPri;
+    return leftWeight - rightWeight;
 }
 
 
 - (void)calculate
 {
     NSString* exprText = m_label.text;
+    exprText = [exprText stringByAppendingString:@"="];
     const char * c = exprText.UTF8String;
     
     NSInteger length = exprText.length;
@@ -115,53 +129,113 @@
     
     for(i = loc + 1; i < length; ++i)
     {
-        if (c[i] == '+' || c[i] == '-' || c[i] =='x' || c[i] == '/')
+        if (c[i] == '+' || c[i] == '-' || c[i] =='x' || c[i] == '/' || c[i] == '=')
         {
+            // convert string to a number and push to stack.
             NSRange range = NSMakeRange(loc, i - loc);
             NSString* ns = [exprText substringWithRange:range];
             float value = ns.floatValue;
-            loc = i+1;
-            
             NSNumber* number = [NSNumber numberWithFloat:value];
             [numStack push:number];
             
-            char curOp = c[i];
-            NSNumber* op = [NSNumber numberWithChar:curOp];
+            char curCharOpeator = c[i];
+            NSNumber* curOperatorObject = [NSNumber numberWithChar:curCharOpeator];
+            
             if (opStack.isEmpty)
             {
-                [opStack push:op];
+                
+                [opStack push:curOperatorObject];
             }
             else
             {
-                NSNumber* top = opStack.top;
-                char firstOp = top.charValue;
-                if ([self priority:firstOp with:curOp] < 0)
+                NSNumber* topOpObject = opStack.top;
+                char topCharOperator = topOpObject.charValue;
+
+                if ([self priority:topCharOperator with:curCharOpeator] < 0)
                 {
-                    [opStack push:op];
+                    [opStack push:curOperatorObject];
                 }
                 else
                 {
                     // pop operator.
                     // pop last two numbers.
                     // then: first op last.
-                    NSLog(@"need to calculate.\n");
+                    
+                    NSNumber* topN = nil;
+                    
+                    do
+                    {
+                        NSNumber* operatorObject = [opStack pop];
+                        char operator = operatorObject.charValue;
+                        
+                        NSNumber* _2Num = [numStack pop];
+                        NSNumber* _1Num = [numStack pop];
+                        float _1st = _1Num.floatValue;
+                        float _2nd = _2Num.floatValue;
+                        float result = [self compute:operator left:_1st right:_2nd];
+                        [numStack push:[NSNumber numberWithFloat:result]];
+                        
+                        NSLog(@"%f", result);
+                        
+                        topN = opStack.top;
+                    }while(topN && [self priority:topN.charValue with:curCharOpeator] >= 0);
+                    
+                    
+                    if (curCharOpeator == '=')
+                    {
+                        NSNumber* resObject = [numStack pop];
+                        NSString* resString = [NSString stringWithFormat:@"%f", resObject.floatValue];
+                        m_label.text = [exprText stringByAppendingString:resString];
+                        return;
+                    }
+                    else
+                    {
+                        [opStack push:curOperatorObject];
+                    }
                 }
             }
             
-            NSLog(@"value = %f\n", value);
+            loc = i+1;
+            
         }
 
     }
     
     // the last number.
-    if (i == length)
-    {
-        NSRange range = NSMakeRange(loc, i-loc);
-        NSString* ns = [exprText substringWithRange:range];
-        float value = ns.floatValue;
-        NSLog(@"value = %f\n", value);
-    }
+//    if (i == length)
+//    {
+//        NSRange range = NSMakeRange(loc, i-loc);
+//        NSString* ns = [exprText substringWithRange:range];
+//        float value = ns.floatValue;
+//        NSLog(@"value = %f\n", value);
+//    }
     
 }
 
+- (float)compute:(char)op left:(float)left right:(float)right
+{
+    float result = 0xffffffff;
+    if ( op == '+')
+    {
+        result =  left+right;
+    }
+    else if (op == '-')
+    {
+        result =  left-right;
+    }
+    else if (op == 'x')
+    {
+        result = left*right;
+    }
+    else if (op == '/')
+    {
+        result = left/right;
+    }
+    else
+    {
+        assert(false);
+    }
+    
+    return result;
+}
 @end
