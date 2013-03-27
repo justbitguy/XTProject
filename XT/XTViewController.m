@@ -64,13 +64,13 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:[NSString stringWithFormat:@"%d", (i+1)%10 ] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-//        button.backgroundColor = [UIColor greenColor];
         button.backgroundColor = [UIColor colorWithRed:30.0/255 green:50.0/255 blue:80.0/255 alpha:1.0];
         
         float x = i%3*(WidthAndInterval) + ButtonXOffset;
         float y = i/3*(WidthAndInterval) + ButtonYOffset;
         button.frame = CGRectMake(x, y, ButtonWidth, ButtonWidth);
         [button addTarget:self action:@selector(numberButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        button.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
         
         m_numberButtons[i] = [button retain];
         [m_numberButtons[i] setTag:(i+1)%10];
@@ -86,26 +86,22 @@
     
     m_addButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y, ButtonWidth, ButtonWidth)];
     [m_addButton setTitle:@"+" forState:UIControlStateNormal];
-    [m_addButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//    [m_addButton setBackgroundColor:[UIColor yellowColor]];
+    [m_addButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [m_addButton setTag:11];
     
     m_minusButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_minusButton setTitle:@"-" forState:UIControlStateNormal];
-    [m_minusButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//    [m_minusButton setBackgroundColor:[UIColor yellowColor]];
+    [m_minusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [m_minusButton setTag:12];
     
     m_multiButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+2*WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_multiButton setTitle:@"x" forState:UIControlStateNormal];
-    [m_multiButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//    [m_multiButton setBackgroundColor:[UIColor yellowColor]];
+    [m_multiButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [m_multiButton setTag:13];
     
     m_divButton = [[UIButton alloc] initWithFrame:CGRectMake(x, y+3*WidthAndInterval, ButtonWidth, ButtonWidth)];
     [m_divButton setTitle:@"/" forState:UIControlStateNormal];
-    [m_divButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//    [m_divButton setBackgroundColor:[UIColor yellowColor]];
+    [m_divButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [m_divButton setTag:14];
     
     
@@ -116,6 +112,11 @@
     [m_multiButton setBackgroundColor:color];
     [m_divButton setBackgroundColor:color];
 
+     m_addButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
+     m_minusButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
+     m_multiButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
+     m_divButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
+    
     [m_addButton addTarget:self action:@selector(opButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_minusButton addTarget:self action:@selector(opButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_multiButton addTarget:self action:@selector(opButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -153,6 +154,10 @@
     [m_resultButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     [m_resultButton setBackgroundColor:[UIColor blackColor]];
 
+    m_dotButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
+    m_backButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
+    m_clearButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
+    m_resultButton.titleLabel.font = [UIFont fontWithName:@"Arial" size:20.0];
     
     [m_dotButton addTarget:self action:@selector(dotButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [m_backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -177,7 +182,7 @@
     m_label.textColor = [UIColor blackColor];
     m_label.textAlignment = NSTextAlignmentRight;
     m_label.textColor = [UIColor darkTextColor];
-  
+    m_label.font = [UIFont fontWithName:@"Arial" size:22.0];
     [self.view addSubview:m_label];
 }
 
